@@ -5,11 +5,15 @@ import reportWebVitals from './reportWebVitals';
 import 'bulma/css/bulma.min.css';
 import './index.css';
 
+import TodoContextProvider from 'context/TodoContext'
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <TodoContextProvider>
+      <App />
+    </TodoContextProvider>
   </React.StrictMode>
 );
 
