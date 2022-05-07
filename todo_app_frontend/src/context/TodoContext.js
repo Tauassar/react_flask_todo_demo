@@ -13,7 +13,7 @@ export default function TaskProvider({ children }) {
     });
     const [user, ] = useState({
         username: "Anonymous",
-        isAdmin: false,
+        isAdmin: true,
         email: "-"
     });
     const [lastSort, setLastSort] = useState({

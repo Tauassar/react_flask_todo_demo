@@ -1,7 +1,7 @@
 import {useTodoContext} from 'context/TodoContext';
 
 function TodoListItem({username, email, task, id, finished}){
-    const { deleteTodoTask, setTodoFormInput, toggleTodoItemStatus } = useTodoContext();
+    const { deleteTodoTask, setTodoFormInput, toggleTodoItemStatus, user } = useTodoContext();
 
     const handleClick = ()=>{
         toggleTodoItemStatus(id);
@@ -29,6 +29,21 @@ function TodoListItem({username, email, task, id, finished}){
         return finished ? 'resolved has-text-danger': '';
     }
 
+    const userActions = ()=>{
+        console.log(user.isAdmin)
+        if(user.isAdmin===true){
+            return (
+                <>
+                    <span onClick={handleDelete} className="icon-text has-text-danger mr-2 is-clickable">
+                        <i className="fa-solid fa-trash-can"></i>
+                    </span><span onClick={handleChange} className="icon-text has-text-link is-clickable">
+                            <i className="fa-solid fa-pen-to-square"></i>
+                    </span>
+                </>
+            )
+        }
+    }
+
     return (
         <tr 
             onClick={handleClick} 
@@ -38,12 +53,7 @@ function TodoListItem({username, email, task, id, finished}){
             <th>{email}</th>
             <th>{displayTask(task)}</th>
             <th>
-                <span onClick={handleDelete} className="icon-text has-text-danger mr-2 is-clickable">
-                    <i className="fa-solid fa-trash-can"></i>
-                </span>
-                <span onClick={handleChange} className="icon-text has-text-link is-clickable">
-                    <i className="fa-solid fa-pen-to-square"></i>
-                </span>
+                {userActions()}
             </th>
         </tr>
     );

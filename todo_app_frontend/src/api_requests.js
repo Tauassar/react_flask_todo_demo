@@ -1,10 +1,6 @@
 
 export function loadUserData(){
-    return {
-        username: "TestUser",
-        isAdmin: false,
-        email: "TestUser@email.com"
-    }
+    return {}
 }
 
 export function loadTodoData(){
