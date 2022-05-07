@@ -3,6 +3,17 @@ import TodoListItem from './TodoListItem';
 
 function TodoList(){
     const {todo_list} = useTodoContext();
+
+    const renderTodoList = ()=>{
+        if(todo_list){
+            return todo_list.map((task, i) => 
+                <TodoListItem key={i} {...task} />
+            );
+        }else{
+            return 'The list is empty';
+        }
+    }
+
     return (
         <div className="todo-list columns">
             <div className="todo-table column is-half is-offset-one-quarter">
@@ -17,9 +28,7 @@ function TodoList(){
                     </thead>
                     <tbody>
                         {
-                            todo_list.map((task, i) => 
-                                <TodoListItem key={i} {...task} />
-                            )
+                            renderTodoList()
                         }
                     </tbody>
                 </table>

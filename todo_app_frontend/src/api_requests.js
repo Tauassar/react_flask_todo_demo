@@ -11,21 +11,21 @@ export function loadTodoData(){
     const initialTodoState = [
         {
             id: 1,
-            username: "testUser",
+            username: "AtestUser",
             email: "testUser@email.com",
             task: "testUser task 1",
             finished: true
         },
         {
             id: 2,
-            username: "testUser",
+            username: "CtestUser",
             email: "testUser@email.com",
             task: "testUser task 2",
             finished: false
         },
         {
             id: 3,
-            username: "testUser",
+            username: "BtestUser",
             email: "testUser@email.com",
             task: "testUser task 3",
             finished: false

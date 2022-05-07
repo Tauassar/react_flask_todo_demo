@@ -16,6 +16,37 @@ export default function TaskProvider({ children }) {
         isAdmin: false,
         email: "-"
     });
+    const [lastSort, setLastSort] = useState({
+        name: '',
+        order: 1
+    });
+
+    const getSortFields = (a, b, type)=>{
+        return {
+            'name': [a.username, b.username],
+            'email': [a.email, b.email],
+            'task': [a.task, b.task]
+        }[type];
+    }
+
+    const sortTodoList = (type)=>{
+        let order=1;
+        if (lastSort.name===type){
+            order = lastSort.order*(-1);
+        }
+        const sorted = [...todo_list].sort((a,b)=>{
+            let field_a, field_b;
+            [field_a, field_b] = getSortFields(a,b, type);
+            if(field_a>field_b) return order;
+            else if(field_a<field_b) return order*(-1);
+            else return 0;
+        });
+        setTodo([...sorted]);
+        setLastSort({
+            name: type,
+            order: order
+        })
+    }
 
     const addTodoTask = ({task, id}) =>{
         if(id){
@@ -42,7 +73,7 @@ export default function TaskProvider({ children }) {
         setTodo(todo_list.filter(t => t.id !== id))
     }
 
-    const ToggleTodoItemStatus = (id) => {
+    const toggleTodoItemStatus = (id) => {
         setTodo(todo_list.map(t => t.id === id ? {...t, finished: !t.finished} : t))
     }
 
@@ -50,9 +81,11 @@ export default function TaskProvider({ children }) {
         <TodoContext.Provider value={{
             todo_list, 
             addTodoTask, 
-            ToggleTodoItemStatus, 
-            deleteTodoTask, 
-            user, todo_form_input, 
+            toggleTodoItemStatus, 
+            deleteTodoTask,
+            sortTodoList,
+            user,
+            todo_form_input, 
             setTodoFormInput
             }}>
             { children }

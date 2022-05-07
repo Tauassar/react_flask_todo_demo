@@ -1,10 +1,10 @@
 import {useTodoContext} from 'context/TodoContext';
 
 function TodoListItem({username, email, task, id, finished}){
-    const { deleteTodoTask, setTodoFormInput, ToggleTodoItemStatus } = useTodoContext();
+    const { deleteTodoTask, setTodoFormInput, toggleTodoItemStatus } = useTodoContext();
 
     const handleClick = ()=>{
-        ToggleTodoItemStatus(id);
+        toggleTodoItemStatus(id);
     }
 
     const handleDelete = (evt)=>{
@@ -39,10 +39,10 @@ function TodoListItem({username, email, task, id, finished}){
             <th>{displayTask(task)}</th>
             <th>
                 <span onClick={handleDelete} className="icon-text has-text-danger mr-2 is-clickable">
-                    <i class="fa-solid fa-trash-can"></i>
+                    <i className="fa-solid fa-trash-can"></i>
                 </span>
                 <span onClick={handleChange} className="icon-text has-text-link is-clickable">
-                    <i class="fa-solid fa-pen-to-square"></i>
+                    <i className="fa-solid fa-pen-to-square"></i>
                 </span>
             </th>
         </tr>
