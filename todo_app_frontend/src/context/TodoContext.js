@@ -11,7 +11,11 @@ export default function TaskProvider({ children }) {
         task: '',
         id: null
     });
-    const [user, ] = useState(loadUserData());
+    const [user, ] = useState({
+        username: "Anonymous",
+        isAdmin: false,
+        email: "-"
+    });
 
     const addTodoTask = ({task, id}) =>{
         if(id){

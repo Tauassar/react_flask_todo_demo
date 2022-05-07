@@ -20,6 +20,11 @@ function TodoListItem({username, email, task, id, finished}){
         });
     }
 
+    const displayTask = (taskString)=>{
+        const maxCharCount = 20
+        return taskString.length<maxCharCount ? taskString : (taskString.slice(0, maxCharCount-3)+"...");
+    }
+
     const isResolved = ()=>{
         return finished ? 'resolved has-text-danger': '';
     }
@@ -31,7 +36,7 @@ function TodoListItem({username, email, task, id, finished}){
             >
             <th>{username}</th>
             <th>{email}</th>
-            <th>{task}</th>
+            <th>{displayTask(task)}</th>
             <th>
                 <span onClick={handleDelete} className="icon-text has-text-danger mr-2 is-clickable">
                     <i class="fa-solid fa-trash-can"></i>
