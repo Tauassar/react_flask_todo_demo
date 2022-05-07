@@ -14,7 +14,7 @@ export function loadTodoData(){
             username: "testUser",
             email: "testUser@email.com",
             task: "testUser task 1",
-            finished: false
+            finished: true
         },
         {
             id: 2,

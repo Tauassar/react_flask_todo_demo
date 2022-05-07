@@ -11,7 +11,7 @@ export default function TaskProvider({ children }) {
         task: '',
         id: null
     });
-    const [user, setUser] = useState(loadUserData());
+    const [user, ] = useState(loadUserData());
 
     const addTodoTask = ({task, id}) =>{
         if(id){
@@ -28,7 +28,7 @@ export default function TaskProvider({ children }) {
                     task,
                     username: user.username,
                     email: user.email,
-                    complete: false
+                    finished: false
                 }
             ])
         }
@@ -38,15 +38,15 @@ export default function TaskProvider({ children }) {
         setTodo(todo_list.filter(t => t.id !== id))
     }
 
-    const setTodoItem = (id, status) => {
-        setTodo(todo_list.map(t => t.id === id ? {...t, complete: status} : t))
+    const ToggleTodoItemStatus = (id) => {
+        setTodo(todo_list.map(t => t.id === id ? {...t, finished: !t.finished} : t))
     }
 
     return (
         <TodoContext.Provider value={{
             todo_list, 
             addTodoTask, 
-            setTodoItem, 
+            ToggleTodoItemStatus, 
             deleteTodoTask, 
             user, todo_form_input, 
             setTodoFormInput
