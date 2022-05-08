@@ -1,15 +1,15 @@
 import os
 
-from flask import Flask
+from flask import Flask, jsonify
 from flask_cors import CORS
 from flask_login import LoginManager
 from werkzeug.security import generate_password_hash
 
+from blueprints.todo_blueprint import todos
 from blueprints.user_blueprints import user_blueprints
 from config import config
 
 from models import User, db
-from utils import generate_response
 
 app = Flask(__name__)
 
@@ -29,14 +29,15 @@ db.init_app(app)
 
 with app.app_context():
     db.create_all()
-    newUser = User(
-        email="admin@admin.com",
-        password=generate_password_hash("123"),
-        username="admin",
-        is_admin=True
-    )
-    db.session.add(newUser)
-    db.session.commit()
+    if not db.session.query(User.query.filter_by(username='admin').exists()).scalar():
+        newUser = User(
+            email="admin@admin.com",
+            password=generate_password_hash("123"),
+            username="admin",
+            is_admin=True
+        )
+        db.session.add(newUser)
+        db.session.commit()
 
 
 @login_manager.user_loader
@@ -46,15 +47,16 @@ def load_user(user_id):
 
 @app.errorhandler(404)
 def not_found(e):
-    return generate_response(404, 'Resource not found.')
+    return jsonify({"message": 'Resource not found.'}), 404
 
 
 @app.errorhandler(400)
 def bad_request(e):
-    return generate_response(400, 'Bad request.')
+    return jsonify({"message": 'Bad request.'}), 400
 
 
 app.register_blueprint(user_blueprints)
+app.register_blueprint(todos)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')

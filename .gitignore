@@ -1,5 +1,6 @@
-*/env/*
+env/*
 */.vscode/*
 */.idea/*
+.idea/*
 */*.db
 */__pycache__/*

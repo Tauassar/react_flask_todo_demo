@@ -9,7 +9,7 @@ db = SQLAlchemy()
 
 class User(UserMixin, db.Model):
     """User account model."""
-    __tablename__ = 'flasklogin-users'
+    __tablename__ = 'users'
 
     id = db.Column(
         db.Integer,
@@ -40,6 +40,7 @@ class User(UserMixin, db.Model):
     def is_active(self):
         return True
 
+    @property
     def is_anonymous(self):
         return False
 
@@ -57,6 +58,31 @@ class User(UserMixin, db.Model):
         """Check hashed password."""
         return check_password_hash(self.password, password)
 
-    def toJSON(self):
-        return json.dumps(self, default=lambda o: dict(o),
-                          sort_keys=True, indent=4)
+
+class Todo(db.Model):
+    __tablename__ = 'todos'
+
+    id = db.Column(
+        'id',
+        db.Integer,
+        primary_key=True
+    )
+    email = db.Column(
+        'email',
+        db.String(40),
+    )
+    username = db.Column(
+        'username',
+        db.String(40),
+    )
+    task = db.Column(
+        'task',
+        db.String(255),
+        nullable=False
+    )
+    finished = db.Column(
+        'finished',
+        db.Boolean(),
+        default=False,
+        nullable=False
+    )

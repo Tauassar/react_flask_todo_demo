@@ -12,16 +12,19 @@ user_blueprints = Blueprint('user_blueprints', __name__)
 
 @user_blueprints.route('/login', methods=['POST'])
 def login():
-    info = json.loads(request.data)
-    username = info.get('username', 'guest')
-    password = info.get('password', '')
-    user = User.query.filter_by(username=username).first()
-    if user.check_password(password):
-        login_user(user)
-        return jsonify(object_as_dict(user))
-    else:
-        return jsonify({"status": 401,
-                        "reason": "Username or Password Error"})
+    try:
+        info = json.loads(request.data)
+        username = info.get('username', 'guest')
+        password = info.get('password', '')
+        user = User.query.filter_by(username=username).first()
+        if user.check_password(password):
+            login_user(user)
+            return jsonify(object_as_dict(user, exclude=['password']))
+        else:
+            return jsonify({"status": 401,
+                            "reason": "Username or Password Error"})
+    except AttributeError as e:
+        return jsonify({"result": "No such user"})
 
 
 @user_blueprints.route('/logout', methods=['POST'])
@@ -59,4 +62,4 @@ def register():
             raise ValueError("User with such username or email already exists")
 
     except (ValueError, AttributeError) as e:
-        return jsonify({"reason": str(e)}), 400
+        return jsonify({"result": str(e)}), 400
