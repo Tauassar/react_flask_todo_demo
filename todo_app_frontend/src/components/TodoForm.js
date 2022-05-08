@@ -28,10 +28,11 @@ function TodoForm(){
                             <input 
                                 className="input is-primary" 
                                 name="todoText" 
-                                type="text" 
+                                type="text"
                                 placeholder="Primary input"
                                 value={todo_form_input.task}
                                 onChange={handleInputChange}
+                                required
                                 />
                         </div>
                         <div className="column is-2">
