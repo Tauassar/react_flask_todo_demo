@@ -30,8 +30,7 @@ function TodoListItem({username, email, task, id, finished}){
     }
 
     const userActions = ()=>{
-        console.log(user.isAdmin)
-        if(user.isAdmin===true){
+        if(user.is_admin===true){
             return (
                 <>
                     <span onClick={handleDelete} className="icon-text has-text-danger mr-2 is-clickable">
@@ -46,9 +45,9 @@ function TodoListItem({username, email, task, id, finished}){
 
     return (
         <tr 
-            onClick={handleClick} 
-            className={`is-clickable ${isResolved()}`}
-            >
+        onClick={handleClick} 
+        className={`is-clickable ${isResolved()}`}
+        >
             <th>{username}</th>
             <th>{email}</th>
             <th>{displayTask(task)}</th>

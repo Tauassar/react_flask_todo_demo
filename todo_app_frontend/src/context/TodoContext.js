@@ -1,21 +1,29 @@
 import React, {useContext, useState} from "react";
-import { loadTodoData, loadUserData } from "api_requests";
+import { 
+        sendLogoutRequest, 
+        update_todo, 
+        sendLoginRequest,
+        create_todo,
+        delete_todo,
+        toggle_todo_state
+    } from 'api_requests';
 
 const TodoContext = React.createContext();
 
 export const useTodoContext = () => useContext(TodoContext);
 
 export default function TaskProvider({ children }) {
-    const [todo_list, setTodo] = useState(loadTodoData());
+    const anonymous_user = {
+        username: "Anonymous",
+        is_admin: false,
+        email: "-"
+    }
+    const [todo_list, setTodo] = useState([]);
     const [todo_form_input, setTodoFormInput] = useState({
         task: '',
         id: null
     });
-    const [user, ] = useState({
-        username: "Anonymous",
-        isAdmin: true,
-        email: "-"
-    });
+    const [user, setUserData] = useState({...anonymous_user});
     const [lastSort, setLastSort] = useState({
         name: '',
         order: 1
@@ -48,43 +56,68 @@ export default function TaskProvider({ children }) {
         })
     }
 
-    const addTodoTask = ({task, id}) =>{
+    const addTodoTask = async ({task, id}) =>{
         if(id){
-            setTodo(todo_list.map(item=>{
+            const response_task = await update_todo(id, task);
+            setTodo([...todo_list].map(item=>{
                     if(item.id === id) 
-                        return {...item, task}
+                        return {...response_task}
                     else return item
                 }))
         }else{
+            const response_task = await create_todo(task);
             setTodo([
                 ...todo_list,
                 {
-                    id: todo_list.length+1,
-                    task,
-                    username: user.username,
-                    email: user.email,
-                    finished: false
+                    ...response_task
                 }
             ])
         }
     }
 
-    const deleteTodoTask = (id) => {
-        setTodo(todo_list.filter(t => t.id !== id))
+    const deleteTodoTask = async (id) => {
+        const result = await delete_todo(id);
+        if (result)
+            setTodo(todo_list.filter(t => t.id !== id))
     }
 
-    const toggleTodoItemStatus = (id) => {
-        setTodo(todo_list.map(t => t.id === id ? {...t, finished: !t.finished} : t))
+    const toggleTodoItemStatus = async (id) => {
+        const result = await toggle_todo_state(id);
+        if(result)
+            setTodo(todo_list.map(t => t.id === id ? {...t, finished: !t.finished} : t))
+    }
+
+    const logout_user = async ()=>{
+        const result = await sendLogoutRequest(user.id);
+        if(result)
+            setUserData({...anonymous_user});
+    }
+    
+    const login_user = async (username, password)=>{
+        const response = await sendLoginRequest(
+            username,
+            password
+        );
+        if(response){
+            setUserData({...response});
+            return true;
+        }else{
+            return false;
+        }
     }
 
     return (
         <TodoContext.Provider value={{
-            todo_list, 
+            todo_list,
+            setTodo,
             addTodoTask, 
             toggleTodoItemStatus, 
             deleteTodoTask,
             sortTodoList,
             user,
+            setUserData,
+            logout_user,
+            login_user,
             todo_form_input, 
             setTodoFormInput
             }}>
