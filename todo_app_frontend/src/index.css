@@ -11,6 +11,16 @@ body {
   text-decoration: line-through;
 }
 
+.is-position-absolute{
+  position: absolute;
+} 
+.is-fullscreenheight{
+  height: 100vh;
+}
+.is-fullwidth{
+  width: 100%;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;

@@ -1,38 +1,64 @@
+import axios from 'axios';
 
-export function loadUserData(){
-    return {}
+const BASE_URL = 'http://localhost:5000/';
+
+const axios_instance = axios.create({
+    withCredentials: true,
+    baseURL: BASE_URL
+});
+
+export async function loadTodoData(){
+    const response = await axios_instance.get('todos/');
+    const state = [...response.data];
+    return state;
 }
 
-export function loadTodoData(){
-    const initialTodoState = [
-        {
-            id: 1,
-            username: "AtestUser",
-            email: "testUser@email.com",
-            task: "testUser task 1",
-            finished: true
-        },
-        {
-            id: 2,
-            username: "CtestUser",
-            email: "testUser@email.com",
-            task: "testUser task 2",
-            finished: false
-        },
-        {
-            id: 3,
-            username: "BtestUser",
-            email: "testUser@email.com",
-            task: "testUser task 3",
-            finished: false
-        },
-        {
-            id: 4,
-            username: "testUser",
-            email: "testUser@email.com",
-            task: "testUser task 4",
-            finished: false
-        },
-    ]
-    return initialTodoState;
+export async function loadUserData(){
+    const response = await axios_instance.get('user');
+    const state = {...response.data};
+    return state;
+}
+
+export async function sendLoginRequest(username, password){
+    const response = await axios_instance.post('login', {
+        username: username,
+        password: password
+    })
+    return response.data
+}
+
+export async function registerUser(credentials){
+    const response = await axios_instance.post('register', {
+        ...credentials
+    })
+    return response.status === 201;
+}
+
+export async function sendLogoutRequest(){
+    const response = await axios_instance.post('logout');
+    return response.status === 200;
+}
+
+export async function update_todo(id, task){
+    const response = await axios_instance.put(`todos/${id}`,{
+        task: task
+    });
+    return response.data;
+}
+
+export async function toggle_todo_state(id){
+    const response = await axios_instance.put(`todos/${id}/toggle_state`);
+    return response.status===200;
+}
+
+export async function create_todo(task){
+    const response = await axios_instance.post(`todos/`,{
+        task: task
+    });
+    return response.data;
+}
+
+export async function delete_todo(id){
+    const response = await axios_instance.delete(`todos/${id}`);
+    return response.status === 200;
 }
