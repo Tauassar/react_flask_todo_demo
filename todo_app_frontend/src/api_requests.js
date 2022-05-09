@@ -20,11 +20,15 @@ export async function loadUserData(){
 }
 
 export async function sendLoginRequest(username, password){
-    const response = await axios_instance.post('login', {
-        username: username,
-        password: password
-    })
-    return response.data
+    try{
+        const response = await axios_instance.post('login', {
+            username: username,
+            password: password
+        })
+        return response.data;
+    }catch(e){
+        return e.response.data
+    }
 }
 
 export async function registerUser(credentials){

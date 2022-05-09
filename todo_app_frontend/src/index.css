@@ -12,7 +12,7 @@ body {
 }
 
 .is-position-absolute{
-  position: absolute;
+  position: absolute;;
 } 
 .is-fullscreenheight{
   height: 100vh;
@@ -21,9 +21,24 @@ body {
   width: 100%;
 }
 
+.alert-box{
+  position: fixed;
+  font-size: 17px;
+  z-index: 100;
+  left: 45%;
+  top: 15%;
+}
 
 .is-non-clickable{
   cursor: not-allowed !important;
+}
+
+.has-border-success{
+  border: 2px solid hsl(141, 71%, 48%);
+}
+
+.has-border-danger{
+  border: 2px solid hsl(348, 100%, 61%);
 }
 
 code {

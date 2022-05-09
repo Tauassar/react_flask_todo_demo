@@ -19,7 +19,13 @@ function TodoList(){
                 <TodoListItem key={i} {...task} />
             );
         }else{
-            return 'The list is empty';
+            return (
+                <tr>
+                    <th title='username'>The list is empty</th>
+                    <th title='username'>The list is empty</th>
+                    <th title='username'>The list is empty</th>
+                </tr>
+            );
         }
     }
 

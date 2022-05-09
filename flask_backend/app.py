@@ -58,5 +58,6 @@ def bad_request(e):
 app.register_blueprint(user_blueprints, url_prefix='/api')
 app.register_blueprint(todos, url_prefix='/api')
 
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0')

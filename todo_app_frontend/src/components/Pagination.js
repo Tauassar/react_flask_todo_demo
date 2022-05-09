@@ -12,6 +12,8 @@ function Pagination(){
             current_page = searchParams.get('page');
         if(current_page>total_pages)
             setSearchParams({page: total_pages})
+        if(current_page<1)
+            setSearchParams({page: 1})
         return current_page;
     }
 
@@ -41,7 +43,7 @@ function Pagination(){
     }
     
     return (
-        <div className="pagination column is-half is-offset-one-quarter">
+        <div className="pagination column is-half is-offset-one-quarter mt-3">
             <span 
                 className={`${has_prev_page()?'is-clickable':'is-non-clickable'} mr-3`} 
                 onClick={handlePreviousPage}

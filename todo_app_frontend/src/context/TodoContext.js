@@ -18,6 +18,10 @@ export default function TaskProvider({ children }) {
         is_admin: false,
         email: "-"
     }
+    const empty_alert = {
+        type: '',
+        message: ''
+    }
     const [todo_list, setTodo] = useState([]);
     const [todo_form_input, setTodoFormInput] = useState({
         task: '',
@@ -28,6 +32,7 @@ export default function TaskProvider({ children }) {
         name: '',
         order: 1
     });
+    const [alert, setAlert] = useState(empty_alert);
 
     const getSortFields = (a, b, type)=>{
         return {
@@ -58,6 +63,12 @@ export default function TaskProvider({ children }) {
 
     const addTodoTask = async ({task, id}) =>{
         if(id){
+            if(user.username==='Anonymous'){
+                setAlertMessage({
+                    message: "To edit tasks you have to be logged in and have admin privileges",
+                    type: 'error'
+                });
+            }
             const response_task = await update_todo(id, task);
             setTodo([...todo_list].map(item=>{
                     if(item.id === id) 
@@ -98,16 +109,32 @@ export default function TaskProvider({ children }) {
             username,
             password
         );
-        if(response){
-            setUserData({...response});
-            return true;
-        }else{
-            return false;
+        if(response.message!==undefined){
+            setAlertMessage({
+                message: response.message,
+                type: 'error'
+            });
+            return false
         }
+        setUserData({...response});
+        return true;
+    }
+
+    function setAlertMessage(alert){
+        setAlert({
+            ...alert
+        })
+        setTimeout(()=>{
+            setAlert({
+                ...empty_alert
+            })
+        }, 5000)
     }
 
     return (
         <TodoContext.Provider value={{
+            alert,
+            setAlertMessage,
             todo_list,
             setTodo,
             addTodoTask, 
