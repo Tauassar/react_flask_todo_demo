@@ -55,8 +55,8 @@ def bad_request(e):
     return jsonify({"message": 'Bad request.'}), 400
 
 
-app.register_blueprint(user_blueprints)
-app.register_blueprint(todos)
+app.register_blueprint(user_blueprints, url_prefix='/api')
+app.register_blueprint(todos, url_prefix='/api')
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
