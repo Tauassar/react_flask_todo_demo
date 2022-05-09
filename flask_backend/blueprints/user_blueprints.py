@@ -22,10 +22,9 @@ def login():
             login_user(user)
             return jsonify(object_as_dict(user, exclude=['password']))
         else:
-            return jsonify({"status": 401,
-                            "reason": "Username or Password Error"})
+            return jsonify({"message": "Username or Password Error"}), 401
     except AttributeError as e:
-        return jsonify({"result": "No such user"})
+        return jsonify({"message": "No such user"})
 
 
 @user_blueprints.route('/logout', methods=['POST'])
@@ -63,7 +62,7 @@ def register():
             raise ValueError("User with such username or email already exists")
 
     except (ValueError, AttributeError) as e:
-        return jsonify({"result": str(e)}), 400
+        return jsonify({"message": str(e)}), 400
 
 
 @user_blueprints.route('/user', methods=['GET'])
