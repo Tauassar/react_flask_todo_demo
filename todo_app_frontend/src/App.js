@@ -25,9 +25,9 @@ function App() {
   return (
     <div className="App">
       <Routes>
-        <Route path="/" element={ <HomePage/> } />
-        <Route path="login" element={ <LoginForm/> } />
-        <Route path="register" element={ <RegisterForm/> } />
+        <Route path="/*" element={ <HomePage/> } />
+        <Route path="login/*" element={ <LoginForm/> } />
+        <Route path="register/*" element={ <RegisterForm/> } />
       </Routes>
       {/* <LoginForm/> */}
       {/* <HomePage/> */}

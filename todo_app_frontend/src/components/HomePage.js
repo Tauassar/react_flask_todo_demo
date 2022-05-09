@@ -1,6 +1,7 @@
 import TodoForm from 'components/TodoForm';
 import TodoSort from 'components/TodoSort';
 import TodoList from 'components/TodoList';
+import Pagination from 'components/Pagination';
 import {useTodoContext} from 'context/TodoContext';
 import { Link } from "react-router-dom";
 
@@ -40,6 +41,7 @@ function HomePage() {
                 <TodoSort />
                 <TodoList />
             </div>
+            <Pagination/>
         </>
     );
 }

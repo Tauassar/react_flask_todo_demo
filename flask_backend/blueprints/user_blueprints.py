@@ -1,7 +1,8 @@
 import json
 
 from flask import Blueprint, jsonify, request
-from flask_login import logout_user, login_required, login_user
+from flask_login import logout_user, login_required, login_user, current_user
+from sqlalchemy.exc import NoInspectionAvailable
 from werkzeug.security import generate_password_hash
 
 from models import User, db
@@ -57,9 +58,21 @@ def register():
             )
             db.session.add(newUser)
             db.session.commit()
-            return jsonify(object_as_dict(newUser)), 201
+            return jsonify(object_as_dict(newUser, exclude=['password'])), 201
         else:
             raise ValueError("User with such username or email already exists")
 
     except (ValueError, AttributeError) as e:
         return jsonify({"result": str(e)}), 400
+
+
+@user_blueprints.route('/user', methods=['GET'])
+def get_current_user():
+    try:
+        return jsonify(object_as_dict(current_user, exclude=['password']))
+    except NoInspectionAvailable as e:
+        return jsonify({
+            "username": "Anonymous",
+            "is_admin": False,
+            "email": "-"
+        })

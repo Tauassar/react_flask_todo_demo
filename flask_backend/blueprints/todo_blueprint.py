@@ -27,10 +27,9 @@ def get_todo_by_id(todo_id):
 @todos.route('/todos/', methods=['POST'])
 def add_todo():
     info = json.loads(request.data)
-    print(current_user.is_anonymous)
     if not current_user.is_anonymous:
-        username = info.get('username', '')
-        email = info.get('email', '')
+        username = current_user.username
+        email = current_user.email
     else:
         username = 'Anonymous'
         email = '-'
@@ -66,7 +65,7 @@ def update_todo(todo_id):
     return jsonify(object_as_dict(todo)), 200
 
 
-@todos.route('/todos/<int:todo_id>/toggle', methods=['PUT'])
+@todos.route('/todos/<int:todo_id>/toggle_state', methods=['PUT'])
 @admin_required
 def toggle_todo(todo_id):
     todo = Todo.query.filter_by(id=todo_id).first()
