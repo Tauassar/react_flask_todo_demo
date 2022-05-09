@@ -4,7 +4,8 @@ function TodoListItem({username, email, task, id, finished}){
     const { deleteTodoTask, setTodoFormInput, toggleTodoItemStatus, user } = useTodoContext();
 
     const handleClick = ()=>{
-        toggleTodoItemStatus(id);
+        if(user.is_admin)
+            toggleTodoItemStatus(id);
     }
 
     const handleDelete = (evt)=>{
