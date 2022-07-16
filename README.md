@@ -36,7 +36,6 @@ These commands clone repository to your local PC and starts script developed to 
 
 ## Features
 
-This vulnerable app includes the following capabilities to experiment with:
 * Tasks can be sorted by username, email and status.
 * Tasks listed with a pagination of 3 task per page.
 * Any visitor can see the list of tasks and create new ones without authorization.
