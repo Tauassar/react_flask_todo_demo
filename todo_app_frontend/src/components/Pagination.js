@@ -10,7 +10,7 @@ function Pagination(){
         const total_pages = Math.ceil(todo_list.length/3);
         if(searchParams.get('page'))
             current_page = searchParams.get('page');
-        if(current_page>total_pages)
+        if(current_page>total_pages && total_pages > 0 && current_page > 0)
             setSearchParams({page: total_pages})
         if(current_page<1)
             setSearchParams({page: 1})
